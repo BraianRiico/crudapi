@@ -17,9 +17,9 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('/libros', function () use ($router) {
+$router->post('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/libros', 'LibroController@index');
-$router->post('/libros', 'LibroController@guardar');
+$router->get('/books', 'BookController@index');
+$router->post('/books', 'BookController@save');

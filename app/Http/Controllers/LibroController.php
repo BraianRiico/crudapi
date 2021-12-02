@@ -12,4 +12,16 @@ class LibroController extends Controller
         $datosLibro = Libro::all();
         return response()->json($datosLibro);
     }
+
+    public function  guardar(Request $request)
+    {
+
+        $datosLibro = new Libro;
+        $datosLibro->Titulo = $request->Titulo;
+        $datosLibro->imagne = $request->imagne;
+
+        $datosLibro->save();
+
+        return response()->json($request);
+    }
 }

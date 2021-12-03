@@ -14,9 +14,8 @@ class LibroController extends Controller
         return response()->json($datosLibro);
     }
 
-    public function  guardar(Request $request)
+    public function  guardar(Request $request) //los parametros recepcionan todo lo que te estan enviando desde el cliente
     {
-
         $datosLibro = new Libro;
 
         if ($request->hasFile('imagne')) {
@@ -51,5 +50,18 @@ class LibroController extends Controller
             $dataBook->delete(); //Aca se hace el borrado de la base de datos
         }
         return response()->json("Registro Borrado");
+    }
+
+    public function update(Request $request, $id)
+    {
+        $dataBook = Libro::find($id); //instanciamos y obtenemos la información por medio del $id
+        if ($request->input('Titulo')) { //Aca estamos preguntando si el titulo viene con información
+            $dataBook->titulo = $request->input('Titulo'); //recepsion del dato que esta llegando y se almacena al campo de la base de datos
+        }
+
+        $dataBook->save(); //guardamos la información recepcionada
+
+
+        return response()->json("datos actualizados");
     }
 }

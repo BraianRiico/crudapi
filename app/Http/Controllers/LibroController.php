@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Libro;
+use Carbon\Carbon;
 
 class LibroController extends Controller
 {
@@ -18,13 +19,22 @@ class LibroController extends Controller
 
         $datosLibro = new Libro;
 
-        $request->file('imagne');
+        if ($request->hasFile('imagne')) {
+            $nombreArchivoOriginal = $request->file('imagne')->getClientOriginalName(); //Variable para llamar el nombre del archivo
 
-        $datosLibro->Titulo = $request->Titulo;
-        $datosLibro->imagne = $request->imagne;
+            $nuevoNombre = Carbon::now()->timestamp . "_" . $nombreArchivoOriginal; //Variable para cambiar el nombre der archivo
 
-        $datosLibro->save();
+            $carpetaDestino = './upload/'; //Creación dinamica de folder para almacenar los archivos
 
-        return response()->json($request->file('imagne')->getClientOriginalName());
+            $request->file('imagne')->move($carpetaDestino, $nuevoNombre); //mover el archivo enviado a el nuevo folver y llamarlo con el nuevo nombre
+
+            $datosLibro->Titulo = $request->Titulo; //inserción a base de datos en columna titulo
+            $datosLibro->imagne = ltrim($carpetaDestino, '.') . $nuevoNombre; //inserción a baese de datos de columna imagne
+
+            $datosLibro->save(); //variable para guardar información en la base de datos
+        }
+
+
+        return response()->json($nuevoNombre);
     }
 }

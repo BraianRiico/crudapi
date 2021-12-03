@@ -24,3 +24,4 @@ $router->post('/libros', function () use ($router) {
 $router->get('/libros', 'LibroController@index');
 $router->post('/libros', 'LibroController@guardar');
 $router->get('/libros/{id}', 'LibroController@search');
+$router->delete('/libros/{id}', 'LibroController@remove');

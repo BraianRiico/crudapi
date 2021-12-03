@@ -38,4 +38,18 @@ class LibroController extends Controller
 
         return response()->json($datafount);
     }
+
+    public function remove($id)
+    {
+        $dataBook = Libro::find($id); //Aca se instancia directamente, es similar a hacer $dataBook = new Libro; con esta se obtiene el id
+
+        if ($dataBook) { //con todo el condicional vamos a validar que si exista un archivo
+            $fielRouter = base_path('public') . $dataBook->imagne; //con esto obtenemos la ruta del archivo que esta guardada en la base de datos
+            if (file_exists($fielRouter)) {
+                unlink($fielRouter); //si existe el archivo en esa ruta se hace el borrado
+            }
+            $dataBook->delete(); //Aca se hace el borrado de la base de datos
+        }
+        return response()->json("Registro Borrado");
+    }
 }

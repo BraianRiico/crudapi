@@ -1,0 +1,7 @@
+[33mf2f6f16[m[33m ([m[1;36mHEAD -> [m[1;32mBraianRico[m[33m, [m[1;31morigin/BraianRico[m[33m, [m[1;32mpractica[m[33m)[m HEAD@{0}: commit: recomendaciones duque
+[33mac7b8e5[m HEAD@{1}: commit: Creación de método guardar
+[33m10687cc[m HEAD@{2}: commit: Creación de módelo libro y configuración de su ruta y su controller
+[33mff9346c[m HEAD@{3}: commit: modelo y controller libro
+[33m508a3ee[m HEAD@{4}: commit: migración de bs y creación de columnas
+[33m4c2d49d[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{5}: checkout: moving from master to BraianRico
+[33m4c2d49d[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{6}: commit (initial): Instalación Inicial Lomen

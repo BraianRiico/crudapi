@@ -56,11 +56,16 @@ class LibroController extends Controller
     {
         $dataBook = Libro::find($id); //instanciamos y obtenemos la información por medio del $id
 
-        if ($request->input('Titulo')) { //Aca estamos preguntando si el titulo viene con información
-            $dataBook->titulo = $request->input('Titulo'); //recepsion del dato que esta llegando y se almacena al campo de la base de datos
-        }
-
         if ($request->hasFile('imagne')) {
+
+            if ($dataBook) { //con todo el condicional vamos a validar que si exista un archivo
+                $fielRouter = base_path('public') . $dataBook->imagne; //con esto obtenemos la ruta del archivo que esta guardada en la base de datos
+                if (file_exists($fielRouter)) {
+                    unlink($fielRouter); //si existe el archivo en esa ruta se hace el borrado
+                }
+                $dataBook->delete(); //Aca se hace el borrado de la base de datos
+            }
+
             $fileOriginName = $request->file('imagne')->getClientOriginalName(); //Variable para llamar el nombre del archivo
             $newName = Carbon::now()->timestamp . "_" . $fileOriginName; //Variable para cambiar el nombre der archivo
             $destinationFolder = './upload/'; //Creación dinamica de folder para almacenar los archivos
@@ -69,7 +74,9 @@ class LibroController extends Controller
             $dataBook->save(); //variable para guardar información en la base de datos
         }
 
-
+        if ($request->input('Titulo')) { //Aca estamos preguntando si el titulo viene con información
+            $dataBook->titulo = $request->input('Titulo'); //recepsion del dato que esta llegando y se almacena al campo de la base de datos
+        }
 
         $dataBook->save(); //guardamos la información recepcionada
 

@@ -55,12 +55,23 @@ class LibroController extends Controller
     public function update(Request $request, $id)
     {
         $dataBook = Libro::find($id); //instanciamos y obtenemos la información por medio del $id
+
         if ($request->input('Titulo')) { //Aca estamos preguntando si el titulo viene con información
             $dataBook->titulo = $request->input('Titulo'); //recepsion del dato que esta llegando y se almacena al campo de la base de datos
         }
 
-        $dataBook->save(); //guardamos la información recepcionada
+        if ($request->hasFile('imagne')) {
+            $fileOriginName = $request->file('imagne')->getClientOriginalName(); //Variable para llamar el nombre del archivo
+            $newName = Carbon::now()->timestamp . "_" . $fileOriginName; //Variable para cambiar el nombre der archivo
+            $destinationFolder = './upload/'; //Creación dinamica de folder para almacenar los archivos
+            $request->file('imagne')->move($destinationFolder, $newName); //mover el archivo enviado a el nuevo folver y llamarlo con el nuevo nombre
+            $dataBook->imagne = ltrim($destinationFolder, '.') . $newName; //inserción a baese de datos de columna imagne
+            $dataBook->save(); //variable para guardar información en la base de datos
+        }
 
+
+
+        $dataBook->save(); //guardamos la información recepcionada
 
         return response()->json("datos actualizados");
     }

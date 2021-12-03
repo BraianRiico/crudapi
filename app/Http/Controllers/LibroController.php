@@ -21,20 +21,21 @@ class LibroController extends Controller
 
         if ($request->hasFile('imagne')) {
             $nombreArchivoOriginal = $request->file('imagne')->getClientOriginalName(); //Variable para llamar el nombre del archivo
-
             $nuevoNombre = Carbon::now()->timestamp . "_" . $nombreArchivoOriginal; //Variable para cambiar el nombre der archivo
-
             $carpetaDestino = './upload/'; //Creación dinamica de folder para almacenar los archivos
-
             $request->file('imagne')->move($carpetaDestino, $nuevoNombre); //mover el archivo enviado a el nuevo folver y llamarlo con el nuevo nombre
-
             $datosLibro->Titulo = $request->Titulo; //inserción a base de datos en columna titulo
             $datosLibro->imagne = ltrim($carpetaDestino, '.') . $nuevoNombre; //inserción a baese de datos de columna imagne
-
             $datosLibro->save(); //variable para guardar información en la base de datos
         }
-
-
         return response()->json($nuevoNombre);
+    }
+
+    public function search($id)
+    {
+        $dataBook = new Libro;
+        $datafount = $dataBook->find($id);
+
+        return response()->json($datafount);
     }
 }
